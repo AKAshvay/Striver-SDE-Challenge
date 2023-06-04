@@ -1,0 +1,58 @@
+import java.util.* ;
+import java.io.*; 
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class Solution 
+{
+	public static void reverse(ArrayList<Integer> list,int i,int j)
+	{
+		while(i<j)
+		{
+			int temp=list.get(i);
+			list.set(i,list.get(j));
+			list.set(j,temp);
+			i++;
+			j--;
+		}
+	}
+	public static ArrayList<Integer> nextPermutation(ArrayList<Integer> permutation) 
+	{
+		// there is an algorithm 
+		// step 1 find the idx1
+		int n=permutation.size();
+		int idx1=-1;
+		for(int i=n-2;i>=0;i--)
+		{
+			if(permutation.get(i)<permutation.get(i+1))
+			{
+				idx1=i;
+				break;
+			}
+		} 
+		if(idx1==-1)	//in case of last permuation
+		{
+			reverse(permutation,0,n-1);
+			return permutation;
+		}
+		
+		// step 2 find the idx2
+		int idx2=-1;
+		for(int i=n-1;i>=0;i--)
+		{
+			if(permutation.get(i)>permutation.get(idx1))
+			{
+				idx2=i;
+				break;
+			}
+		}
+		// step 3 swap idx1 and idx2 elements
+		int temp=permutation.get(idx1);
+		permutation.set(idx1,permutation.get(idx2));
+		permutation.set(idx2,temp);
+		
+		//reverse from idx1+1 to n-1
+		reverse(permutation,idx1+1,n-1);
+		return permutation;
+	}
+}
